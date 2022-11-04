@@ -1,5 +1,9 @@
 package programmers.level1.kakao;
 
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class PersonalityTypeChecker {
     //나만의 카카오 성격 유형 검사지를 만들려고 합니다.
     //성격 유형 검사는 다음과 같은 4개 지표로 성격 유형을 구분합니다. 성격은 각 지표에서 두 유형 중 하나로 결정됩니다.
@@ -157,17 +161,52 @@ public class PersonalityTypeChecker {
     //따라서 "RCJA"를 return 해야 합니다.
 
     //choices	뜻
-    //1	매우 비동의
-    //2	비동의
-    //3	약간 비동의
+    //1	매우 비동의 왼쪽 3
+    //2	비동의     왼쪽 2
+    //3	약간 비동의 왼쪽 1
     //4	모르겠음
-    //5	약간 동의
-    //6	동의
-    //7	매우 동의
+    //5	약간 동의 오른쪽 1
+    //6	동의     오른쪽 2
+    //7	매우 동의 오른쪽 3
     public static void main(String[] args) {
-        String survey[] = {"AN", "CF", "MJ", "RT", "NA"};
-        int choices[] = {5, 3, 2, 7, 5};
-        int r,t,c,f,j,m,a,n = 0;
-        int l1,l2,l3,r1,r2,r3 = 0;
+        String survey[] = {"TR", "RT", "TR"};
+        int choices[] = {7,1,3};
+        String answer = "";
+
+        String type[] = {"R", "T", "C", "F", "J", "M", "A", "N"};
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+        for (String key : type) map.put(key, 0);
+
+        for (int i = 0; i < choices.length; i++) {
+            if(choices[i] == 1) map.put(String.valueOf(survey[i].charAt(0)), map.get(String.valueOf(survey[i].charAt(0))) + 3);
+            else if (choices[i] == 2) map.put(String.valueOf(survey[i].charAt(0)),map.get(String.valueOf(survey[i].charAt(0))) + 2);
+            else if (choices[i] == 3) map.put(String.valueOf(survey[i].charAt(0)),map.get(String.valueOf(survey[i].charAt(0))) + 1);
+            else if (choices[i] == 5) map.put(String.valueOf(survey[i].charAt(1)),map.get(String.valueOf(survey[i].charAt(0))) + 1);
+            else if (choices[i] == 6) map.put(String.valueOf(survey[i].charAt(1)),map.get(String.valueOf(survey[i].charAt(0))) + 2);
+            else if (choices[i] == 7) map.put(String.valueOf(survey[i].charAt(1)),map.get(String.valueOf(survey[i].charAt(0))) + 3);
+        }
+
+        String rt = Arrays.stream("RT".split("")).sorted().findFirst().get();
+        String cf = Arrays.stream("CF".split("")).sorted().findFirst().get();
+        String jm = Arrays.stream("JM".split("")).sorted().findFirst().get();
+        String an = Arrays.stream("AN".split("")).sorted().findFirst().get();
+
+        if(map.get("R") > map.get("T")) answer += "R";
+        else if (map.get("R") < map.get("T")) answer += "T";
+        else if (map.get("R") == map.get("T")) answer += rt;
+
+        if(map.get("C") > map.get("F")) answer += "C";
+        else if (map.get("C") < map.get("F")) answer += "F";
+        else if (map.get("C") == map.get("F")) answer += cf;
+
+        if(map.get("J") > map.get("M")) answer += "J";
+        else if (map.get("J") < map.get("M")) answer += "M";
+        else if (map.get("J") == map.get("M")) answer += jm;
+
+        if(map.get("A") > map.get("N")) answer += "A";
+        else if (map.get("A") < map.get("N")) answer += "N";
+        else if (map.get("A") == map.get("N")) answer += an;
+
+        System.out.println(answer);
     }
 }
