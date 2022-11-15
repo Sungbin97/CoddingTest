@@ -17,10 +17,18 @@ public class ReportResult {
 
         for (String id : id_list) map.put(id, ""); // 신고자를 key로 저장
 
-        for (int i = 0; i < reportDistinct.size(); i++) { // 중복된 신고를 제외한 List를 기준으로
+        /*for (int i = 0; i < reportDistinct.size(); i++) { // 중복된 신고를 제외한 List를 기준으로
                                                           // 신고자 + 피신고자 문자열을 신고자와 피신고자 List로 분할
             reporter.add(reportDistinct.get(i).substring(0, report[i].indexOf(" ")));
             reported.add(reportDistinct.get(i).substring(report[i].indexOf(" ")).replaceAll(" ", ""));
+        }
+        System.out.println("reporter: " + reporter);
+        System.out.println("reported: " + reported);*/
+
+        for (int i = 0; i < reportDistinct.size(); i++) { // 중복된 신고를 제외한 List를 기준으로
+            // 신고자 + 피신고자 문자열을 신고자와 피신고자 List로 분할
+            reporter.add(reportDistinct.get(i).split(" ")[0]);
+            reported.add(reportDistinct.get(i).split(" ")[1]);
         }
         System.out.println("reporter: " + reporter);
         System.out.println("reported: " + reported);
@@ -48,7 +56,7 @@ public class ReportResult {
                                             .replaceFirst(" ", "")
                                             .split(" "))
                             .filter(j -> j != ""
-                                    && banList.stream().anyMatch(Predicate.isEqual(j))) //정지당한 사람만 저장
+                                    && banList.stream().anyMatch(Predicate.isEqual(j)))
                             .collect(Collectors.toList()));
         }
 
