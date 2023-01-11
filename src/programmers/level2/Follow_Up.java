@@ -28,23 +28,6 @@ public class Follow_Up {
         System.out.println(answer[0]);
         System.out.println(answer[1]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /*LinkedHashMap<Integer,List> map = new LinkedHashMap<>();
         for (int i = 1; i <= n; i++){
             map.put(i, new ArrayList());
